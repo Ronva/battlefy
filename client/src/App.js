@@ -45,7 +45,10 @@ export default () => {
           initialValues={{ summoner: '' }}
           onSubmit={async (values, { setSubmitting }) => {
             const { summoner } = values;
-            if (summoner !== state.summoner) await fetchMatches(summoner);
+            if (summoner !== state.summoner) {
+              await dispatch({ type: 'matches', payload: [] });
+              await fetchMatches(summoner);
+            }
             setSubmitting(false);
           }}>
           {({ isSubmitting }) => (
