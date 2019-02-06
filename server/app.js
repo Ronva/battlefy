@@ -1,8 +1,6 @@
 require('dotenv').config();
 
-// const path = require('path');
 const express = require('express');
-const serverless = require('serverless-http');
 const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 
@@ -14,29 +12,30 @@ const leagueJS = new LeagueJS(process.env.LOL_API_KEY, {
     Summoner: 'v4'
   }
 });
-// leagueJS.StaticData.setup('../static');
-
-// const DataDragonHelper = require('leaguejs/lib/DataDragon/DataDragonHelper');
-// DataDragonHelper.storageRoot = path.resolve(__dirname, '../static');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
-app.use('/.netlify/functions/server');
 
 app.get('/api/summoner', async (req, res) => {
-  const { name } = req.query;
+  const { name, page = 1 } = req.query;
+  const matchesPerPage = 5;
+
+  res.setHeader('Content-Type', 'application/json');
   try {
     const { accountId } = await leagueJS.Summoner.gettingByName(name);
     const matches = await leagueJS.Match.gettingListByAccount(
       accountId,
       'na1',
-      { endIndex: 5 }
+      {
+        startIndex: (page - 1) * matchesPerPage,
+        endIndex: page * matchesPerPage
+      }
     );
-    res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(matches));
   } catch (e) {
-    console.log(e);
+    const { statusCode } = e;
+    res.status(statusCode).send(e);
   }
 });
 
@@ -52,5 +51,3 @@ app.get('/api/match', async (req, res) => {
 });
 
 app.listen(3001, () => console.log('Express server is running on port 3001'));
-
-module.exports.handler = serverless(app);

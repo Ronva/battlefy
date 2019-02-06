@@ -1,11 +1,11 @@
 .match {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   width: calc(100vw - 32pt);
   max-width: 800pt;
   margin-bottom: 16pt;
-  padding: 16pt;
+  padding: 16pt 40pt;
   border: 0.25em solid #E2B6B3;
   border-left-width: 2em;
   & > div {
@@ -30,8 +30,18 @@
 
   .result {
     img {
-      width: auto;
-      height: 80pt;
+      width: 80pt;
+      //height: 80pt;
     }
   }
+  .summonerItems {
+    flex-flow: row wrap;
+    width: 100pt;
+  }
+}
+
+.icon {
+    width: 25pt;
+    height: 25pt;
+    border-radius: 7px;
 }

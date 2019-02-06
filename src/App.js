@@ -8,26 +8,35 @@ import Match from 'components/Match';
 const apiPath = '/api/summoner';
 const initialState = {
   summoner: '',
-  matches: []
+  matches: [],
+  error: null
 };
 
 export const Context = React.createContext(initialState);
 
 const reducer = (state, { type, payload }) =>
   produce(state, draft => {
-    if (type === 'merge') {
-      draft = {
-        ...state,
-        ...payload
-      };
-    } else {
-      draft[type] = payload;
-    }
+    draft[type] = payload;
   });
 
 export default () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
-  const { matches } = state;
+  const { matches, error } = state;
+
+  const fetchMatches = async (summoner = state.summoner) => {
+    await dispatch({ type: 'summoner', payload: summoner });
+    try {
+      // fetch summoner
+      const { data } = await axios.get(`${apiPath}?name=${summoner}`);
+      await dispatch({
+        type: 'matches',
+        payload: data.matches
+      });
+    } catch (e) {
+      dispatch({ type: 'error', payload: 'Could not fetch summoner matches.' });
+      console.log(e);
+    }
+  };
 
   return (
     <Context.Provider value={{ ...state, dispatch }}>
@@ -36,24 +45,7 @@ export default () => {
           initialValues={{ summoner: '' }}
           onSubmit={async (values, { setSubmitting }) => {
             const { summoner } = values;
-            if (summoner !== state.summoner) {
-              await dispatch({
-                type: 'merge',
-                payload: {
-                  summoner,
-                  matches: []
-                }
-              });
-              // dispatch({ type: 'summoner', payload: summoner });
-              try {
-                // fetch summoner
-                const { data } = await axios.get(`${apiPath}?name=${summoner}`);
-                const { matches } = data;
-                await dispatch({ type: 'matches', payload: matches });
-              } catch (e) {
-                console.log(e);
-              }
-            }
+            if (summoner !== state.summoner) await fetchMatches(summoner);
             setSubmitting(false);
           }}>
           {({ isSubmitting }) => (
@@ -75,6 +67,7 @@ export default () => {
           )}
         </Formik>
         <main role="main">
+          {error && <h2 className="error">{error}</h2>}
           {matches.map(({ gameId }) => (
             <Match key={gameId} matchId={gameId} />
           ))}
