@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js | pino-colada",
-    "heroku-postbuild": "cd client && yarn && npm rebuild && yarn run build"
+    "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "devDependencies": {
     "express-pino-logger": "^4.0.0",
