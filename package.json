@@ -5,7 +5,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "leaguejs": "^1.11.4"
+    "leaguejs": "^1.11.4",
+    "dotenv": "^6.2.0"
   },
   "scripts": {
     "start": "node app.js",
@@ -13,7 +14,6 @@
     "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "devDependencies": {
-    "dotenv": "^6.2.0",
     "express-pino-logger": "^4.0.0",
     "node-env-run": "^3.0.2",
     "node-sass": "^4.11.0",
