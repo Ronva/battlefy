@@ -1,0 +1,10 @@
+form {
+  display: flex;
+  width: calc(100vw - 32pt);
+  max-width: 800pt;
+  margin: 16pt;
+  font-size: $h4;
+  input {
+    flex: 1;
+  }
+}

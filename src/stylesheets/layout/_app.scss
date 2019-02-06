@@ -1,8 +1,15 @@
 .app {
   display: flex;
   flex-flow: column nowrap;
+  align-items: center;
   min-height: 100vh;
   main {
     flex: 1;
   }
+}
+
+main {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 16pt;
 }

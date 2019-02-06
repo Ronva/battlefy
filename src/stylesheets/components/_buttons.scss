@@ -1,6 +1,22 @@
 /* _-_-_- modules/BUTTONS -_-_-_ */
 button {
+  padding: 8pt 16pt;
+  line-height: 1;
   outline: none;
   border: none;
   cursor: pointer;
+  &:disabled {
+    filter: grayscale(0.5);
+  }
+}
+
+.btnWrapper {
+  padding: 0.25em;
+  background: linear-gradient(170deg, #3bb9b4, #195a7e);
+  font-family: $serif-font-stack;
+  button {
+    text-transform: uppercase;
+    background: #0d141b;
+    color: #a6c6c4;
+  }
 }

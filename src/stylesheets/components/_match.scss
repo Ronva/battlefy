@@ -1,0 +1,37 @@
+.match {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: calc(100vw - 32pt);
+  max-width: 800pt;
+  margin-bottom: 16pt;
+  padding: 16pt;
+  border: 0.25em solid #E2B6B3;
+  border-left-width: 2em;
+  & > div {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+  &.win {
+    border: 0.25em solid #A3CFEC;
+    border-left-width: 2em;
+  }
+  &.placeholder {
+    justify-content: center;
+    align-items: center;
+    height: 120pt;
+    font-family: $serif-font-stack;
+    font-size: $h3;
+    font-weight: bold;
+    background: transparent;
+    border: 0.25em solid #3bb9b4;
+  }
+
+  .result {
+    img {
+      width: auto;
+      height: 80pt;
+    }
+  }
+}
