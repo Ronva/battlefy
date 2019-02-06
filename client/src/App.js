@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import produce from 'immer';
+import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 
 import Match from 'components/Match';
@@ -24,6 +25,7 @@ export default () => {
   const { matches, error } = state;
 
   const fetchMatches = async (summoner = state.summoner) => {
+    await dispatch({ type: 'error', payload: null });
     await dispatch({ type: 'summoner', payload: summoner });
     try {
       // fetch summoner
@@ -52,7 +54,7 @@ export default () => {
             setSubmitting(false);
           }}>
           {({ isSubmitting }) => (
-            <Form>
+            <Form className={classNames({submitting: isSubmitting})}>
               <div className="inputWrapper">
                 <Field
                   type="text"
