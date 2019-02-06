@@ -22,6 +22,7 @@ const leagueJS = new LeagueJS(process.env.LOL_API_KEY, {
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
+app.use('/.netlify/functions/server');
 
 app.get('/api/summoner', async (req, res) => {
   const { name } = req.query;
